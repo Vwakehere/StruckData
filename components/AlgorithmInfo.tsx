@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { AlgorithmMetadata } from '../types';
-import { getAlgorithmInsight } from '../services/geminiService';
 
 interface AlgorithmInfoProps {
   data: AlgorithmMetadata;
@@ -9,22 +8,7 @@ interface AlgorithmInfoProps {
 }
 
 const AlgorithmInfo: React.FC<AlgorithmInfoProps> = ({ data, darkMode }) => {
-  const [insight, setInsight] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
   const [view, setView] = useState<'info' | 'code'>('info');
-
-  const fetchInsight = async () => {
-    setLoading(true);
-    try {
-      const result = await getAlgorithmInsight(data.name);
-      setInsight(result);
-    } catch (err) {
-      console.error(err);
-      setInsight("Failed to fetch AI insights. Check your connection.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className={`${darkMode ? 'bg-slate-900 border-slate-800 shadow-none' : 'bg-white border-slate-200 shadow-sm'} p-6 rounded-3xl border h-full overflow-y-auto flex flex-col relative transition-all`}>
@@ -36,14 +20,9 @@ const AlgorithmInfo: React.FC<AlgorithmInfoProps> = ({ data, darkMode }) => {
              <div className="text-[10px] text-red-600 font-mono uppercase bg-red-50 dark:bg-red-900/20 px-2 py-0.5 rounded border border-red-100 dark:border-red-500/20">Worst: {data.worstCase}</div>
           </div>
         </div>
-        <button 
-          onClick={fetchInsight}
-          disabled={loading}
-          className={`${darkMode ? 'bg-slate-800 text-blue-400 hover:bg-slate-700' : 'bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white'} p-2.5 rounded-xl transition-all disabled:opacity-50 shadow-sm`}
-          title="Get AI Explanation"
-        >
-          {loading ? <i className="fas fa-circle-notch fa-spin"></i> : <i className="fas fa-brain"></i>}
-        </button>
+        <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-400">
+          <i className="fas fa-terminal"></i>
+        </div>
       </div>
 
       <div className={`flex gap-2 mb-6 ${darkMode ? 'bg-slate-950 border-slate-800' : 'bg-slate-50 border-slate-100'} p-1 rounded-xl border`}>
@@ -83,20 +62,13 @@ const AlgorithmInfo: React.FC<AlgorithmInfoProps> = ({ data, darkMode }) => {
                 </ul>
               </div>
             </div>
-
-            {insight && (
-              <div className={`p-4 ${darkMode ? 'bg-blue-900/10 border-blue-500/20 text-blue-100' : 'bg-blue-50 border-blue-100 text-slate-600'} border rounded-2xl animate-in fade-in slide-in-from-bottom-2 duration-300`}>
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="text-[10px] font-black text-blue-600 uppercase tracking-widest flex items-center gap-2">
-                    <i className="fas fa-sparkles"></i> AI Deep Dive
-                  </h3>
-                  <button onClick={() => setInsight(null)} className="text-slate-400 hover:text-slate-600"><i className="fas fa-times text-[10px]"></i></button>
-                </div>
-                <div className="text-[11px] leading-relaxed font-medium">
-                  {insight}
-                </div>
-              </div>
-            )}
+            
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+               <div className="flex justify-between items-center">
+                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Space Complexity</span>
+                 <span className="text-xs font-mono font-bold text-blue-600">{data.spaceComplexity}</span>
+               </div>
+            </div>
           </>
         ) : (
           <div className={`relative group rounded-2xl overflow-hidden border ${darkMode ? 'border-slate-800 bg-slate-950' : 'border-slate-200 bg-slate-50'}`}>
