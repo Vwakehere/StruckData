@@ -1,4 +1,4 @@
-# StruckData Visualizer
+# StruckData Visualizer - a vibecoded experiment
 
 StruckData is a high-performance algorithm and data structure visualization suite designed for computer science education and technical analysis. It provides real-time, granular graphical representations of fundamental computer science concepts, specifically focusing on sorting algorithms and dynamic data structures.
 
