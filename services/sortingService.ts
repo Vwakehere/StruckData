@@ -302,3 +302,51 @@ export function* heapSort(arr: number[]): Generator<SortStep> {
   sortedIndices.push(0);
   yield { array: [...current], comparingIndices: [], swappingIndices: [], sortedIndices: [...sortedIndices], swapCount };
 }
+
+export function* shellSort(arr: number[]): Generator<SortStep> {
+  const n = arr.length;
+  const current = [...arr];
+  const sortedIndices: number[] = [];
+  let swapCount = 0;
+
+  for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
+    for (let i = gap; i < n; i++) {
+      const temp = current[i];
+      let j = i;
+      
+      while (j >= gap && current[j - gap] > temp) {
+        yield { 
+          array: [...current], 
+          comparingIndices: [j - gap, j], 
+          swappingIndices: [], 
+          sortedIndices: [...sortedIndices],
+          variables: { gap, i, j },
+          swapCount
+        };
+        current[j] = current[j - gap];
+        swapCount++;
+        yield { 
+          array: [...current], 
+          comparingIndices: [], 
+          swappingIndices: [j], 
+          sortedIndices: [...sortedIndices],
+          variables: { gap, i, j },
+          swapCount
+        };
+        j -= gap;
+      }
+      current[j] = temp;
+      yield { 
+        array: [...current], 
+        comparingIndices: [], 
+        swappingIndices: [j], 
+        sortedIndices: [...sortedIndices],
+        variables: { gap, i, j },
+        swapCount
+      };
+    }
+  }
+  
+  yield { array: [...current], comparingIndices: [], swappingIndices: [], sortedIndices: Array.from({length: n}, (_, i) => i), swapCount };
+}
+

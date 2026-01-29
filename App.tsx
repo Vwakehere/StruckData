@@ -52,6 +52,7 @@ const App: React.FC = () => {
       case AlgorithmType.MERGE: gen = SortingService.mergeSort(array); break;
       case AlgorithmType.QUICK: gen = SortingService.quickSort(array); break;
       case AlgorithmType.HEAP: gen = SortingService.heapSort(array); break;
+      case AlgorithmType.SHELL: gen = SortingService.shellSort(array); break;
       default: gen = SortingService.bubbleSort(array);
     }
 
