@@ -1,5 +1,9 @@
 # StruckData Visualizer - a vibecoded experiment
 
+**🌐 Live Demo**: [https://struck-data.vercel.app/](https://struck-data.vercel.app/)
+
+> ⚠️ **Note**: This website is optimized for desktop viewing. Mobile responsiveness is not yet implemented.
+
 StruckData is a high-performance algorithm and data structure visualization suite designed for computer science education and technical analysis. It provides real-time, granular graphical representations of fundamental computer science concepts, specifically focusing on sorting algorithms and dynamic data structures.
 
 ## Core Functionality
